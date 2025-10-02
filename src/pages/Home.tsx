@@ -43,9 +43,9 @@ const Home = ({ onLanguageSelect }: HomeProps) => {
         {/* Church Name */}
         <div className="mb-4 text-center animate-fade-in-up" style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-2 drop-shadow-lg">
-            CAC Alagomeji Yaba
+            CAC Oke-Ibukun 
           </h1>
-          <p className="text-xl md:text-2xl text-white/90 font-light">(Oke-Ibukun)</p>
+          <p className="text-xl md:text-2xl text-white/90 font-light">(Alagomeji Yaba)</p>
         </div>
 
         {/* Slogan */}
@@ -73,7 +73,7 @@ const Home = ({ onLanguageSelect }: HomeProps) => {
               className="group relative overflow-hidden bg-white text-primary hover:bg-white/90 px-8 py-6 h-auto text-lg font-semibold shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-glow"
             >
               <div className="flex items-center gap-3">
-                <span>English Assembly</span>
+                <span>English Service Assembly</span>
                 <ChevronRight 
                   className={`h-5 w-5 transition-transform duration-300 ${hoveredLang === 'en' ? 'translate-x-1' : ''}`} 
                 />
@@ -90,7 +90,7 @@ const Home = ({ onLanguageSelect }: HomeProps) => {
               className="group relative overflow-hidden bg-secondary text-secondary-foreground hover:bg-secondary/90 px-8 py-6 h-auto text-lg font-semibold shadow-2xl transition-all duration-300 hover:scale-105"
             >
               <div className="flex items-center gap-3">
-                <span>Yoruba Assembly</span>
+                <span>Yoruba Service Assembly</span>
                 <ChevronRight 
                   className={`h-5 w-5 transition-transform duration-300 ${hoveredLang === 'yo' ? 'translate-x-1' : ''}`} 
                 />
@@ -102,8 +102,8 @@ const Home = ({ onLanguageSelect }: HomeProps) => {
 
         {/* Footer Info */}
         <div className="mt-16 text-center text-white/70 text-sm animate-fade-in" style={{ animationDelay: '0.4s', animationFillMode: 'both' }}>
-          <p>Alagomeji, Yaba, Lagos, Nigeria</p>
-          <p className="mt-1">A Digital Church Platform for Modern Worship</p>
+          <p>13 Odewale Street, Alagomeji-Yaba, Lagos, Nigeria</p>
+          <p className="mt-1">A Church Platform for Modern Worship</p>
         </div>
       </div>
     </div>
