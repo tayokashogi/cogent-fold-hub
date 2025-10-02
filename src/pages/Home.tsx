@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ChevronRight } from 'lucide-react';
 import pastorHero from '@/assets/pastor-hero.jpg';
+import cacLogo from '@/assets/cac-logo.svg';
 
 interface HomeProps {
   onLanguageSelect: (lang: 'en' | 'yo') => void;
@@ -34,8 +35,8 @@ const Home = ({ onLanguageSelect }: HomeProps) => {
       <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4">
         {/* Logo Badge */}
         <div className="mb-8 animate-fade-in">
-          <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-md border-2 border-white/30 shadow-2xl">
-            <span className="text-4xl font-bold text-white">CAC</span>
+          <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-md border-2 border-white/30 shadow-2xl p-4">
+            <img src={cacLogo} alt="CAC Logo" className="h-full w-full object-contain" />
           </div>
         </div>
 
