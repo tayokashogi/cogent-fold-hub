@@ -66,7 +66,7 @@ const Header = ({ language, onLanguageChange }: HeaderProps) => {
               <img src={cacLogo} alt="CAC Logo" className="h-full w-full object-contain" />
             </div>
             <div className="hidden md:block">
-              <div className="text-base font-bold text-primary">CAC Alagomeji Yaba</div>
+              <div className="text-base font-bold text-primary">CAC Oke-Ibukun</div>
               <div className="text-xs font-medium text-muted-foreground">One Fold, One Shepherd</div>
             </div>
           </Link>
