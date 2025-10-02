@@ -65,6 +65,7 @@ export default {
         'md': 'var(--shadow-md)',
         'lg': 'var(--shadow-lg)',
         'glow': 'var(--shadow-glow)',
+        'purple-glow': 'var(--shadow-purple-glow)',
       },
       keyframes: {
         "accordion-down": {

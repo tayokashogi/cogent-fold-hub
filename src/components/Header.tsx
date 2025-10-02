@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import cacLogo from '@/assets/cac-logo.svg';
 
 interface HeaderProps {
   language: 'en' | 'yo';
@@ -56,17 +57,17 @@ const Header = ({ language, onLanguageChange }: HeaderProps) => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-secondary/30 bg-gradient-to-r from-background via-secondary/10 to-background backdrop-blur supports-[backdrop-filter]:bg-background/80 shadow-md">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-              <span className="text-xl font-bold text-primary-foreground">CAC</span>
+          <Link to="/" className="flex items-center space-x-3 group transition-transform hover:scale-105">
+            <div className="flex h-12 w-12 items-center justify-center">
+              <img src={cacLogo} alt="CAC Logo" className="h-full w-full object-contain" />
             </div>
             <div className="hidden md:block">
-              <div className="text-sm font-bold text-foreground">CAC Alagomeji Yaba</div>
-              <div className="text-xs text-muted-foreground">One Fold, One Shepherd</div>
+              <div className="text-base font-bold text-primary">CAC Alagomeji Yaba</div>
+              <div className="text-xs font-medium text-muted-foreground">One Fold, One Shepherd</div>
             </div>
           </Link>
 
@@ -76,7 +77,11 @@ const Header = ({ language, onLanguageChange }: HeaderProps) => {
               <Link key={item.path} to={item.path}>
                 <Button
                   variant={isActive(item.path) ? 'default' : 'ghost'}
-                  className={isActive(item.path) ? 'bg-primary text-primary-foreground' : ''}
+                  className={`transition-all font-semibold ${
+                    isActive(item.path) 
+                      ? 'bg-primary text-primary-foreground shadow-md hover:shadow-purple-glow' 
+                      : 'hover:bg-secondary/20 hover:text-primary'
+                  }`}
                 >
                   {item.label}
                 </Button>
@@ -88,16 +93,16 @@ const Header = ({ language, onLanguageChange }: HeaderProps) => {
           <div className="flex items-center space-x-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2">
+                <Button variant="outline" size="sm" className="gap-2 border-primary/30 hover:bg-secondary/20 hover:border-primary transition-all font-semibold">
                   <Globe className="h-4 w-4" />
                   <span className="hidden sm:inline">{language === 'en' ? t.english : t.yoruba}</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-popover z-50">
-                <DropdownMenuItem onClick={() => onLanguageChange('en')} className="cursor-pointer">
+              <DropdownMenuContent align="end" className="bg-popover z-50 border-secondary/30">
+                <DropdownMenuItem onClick={() => onLanguageChange('en')} className="cursor-pointer font-medium hover:bg-secondary/20">
                   {t.english}
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => onLanguageChange('yo')} className="cursor-pointer">
+                <DropdownMenuItem onClick={() => onLanguageChange('yo')} className="cursor-pointer font-medium hover:bg-secondary/20">
                   {t.yoruba}
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -107,7 +112,7 @@ const Header = ({ language, onLanguageChange }: HeaderProps) => {
             <Button
               variant="ghost"
               size="sm"
-              className="lg:hidden"
+              className="lg:hidden hover:bg-primary/10 transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -117,13 +122,17 @@ const Header = ({ language, onLanguageChange }: HeaderProps) => {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <nav className="lg:hidden border-t border-border py-4 animate-fade-in">
+          <nav className="lg:hidden border-t border-secondary/30 py-4 animate-fade-in bg-gradient-to-b from-secondary/5 to-transparent">
             <div className="flex flex-col space-y-2">
               {navItems.map((item) => (
                 <Link key={item.path} to={item.path} onClick={() => setMobileMenuOpen(false)}>
                   <Button
                     variant={isActive(item.path) ? 'default' : 'ghost'}
-                    className={`w-full justify-start ${isActive(item.path) ? 'bg-primary text-primary-foreground' : ''}`}
+                    className={`w-full justify-start font-semibold transition-all ${
+                      isActive(item.path) 
+                        ? 'bg-primary text-primary-foreground shadow-md' 
+                        : 'hover:bg-secondary/20 hover:text-primary'
+                    }`}
                   >
                     {item.label}
                   </Button>
