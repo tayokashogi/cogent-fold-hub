@@ -55,14 +55,14 @@ const Services = ({ language }: ServicesProps) => {
 
   const schedules = {
     combine: [
-      { day: 'Sunday', time: '7:00 AM - 9:00 AM', mode: 'hybrid', service: 'First Service' },
-      { day: 'Sunday', time: '9:30 AM - 11:30 AM', mode: 'hybrid', service: 'Second Service' },
-      { day: 'Wednesday', time: '6:00 PM - 8:00 PM', mode: 'physical', service: 'Bible Study' },
-      { day: 'Friday', time: '6:00 PM - 8:00 PM', mode: 'physical', service: 'Prayer Meeting' },
+      { day: 'Sunday', time: '8:00 AM - 9:00 AM', mode: 'hybrid', service: 'Sunday School' },
+      { day: 'Sunday', time: '9:00 AM - 11:00 AM', mode: 'hybrid', service: 'Sunday Service' },
+      { day: 'Wednesday', time: '6:00 PM - 8:00 PM', mode: 'physical', service: 'Wednesday Bible Study' },
+      { day: 'Friday', time: '6:00 PM - 8:00 PM', mode: 'physical', service: 'Friday Prayer Meeting' },
     ],
     yoruba: [
-      { day: 'Sunday', time: '7:00 AM - 9:00 AM', mode: 'hybrid', service: 'Ìsìn Àárọ̀' },
-      { day: 'Tuesday', time: '6:00 PM - 7:30 PM', mode: 'physical', service: 'Ẹ̀kọ́ Bíbélì' },
+      { day: 'Sunday', time: '7:00 AM - 9:00 AM', mode: 'hybrid', service: 'Ìsìn Àárọ̀/Morning Service' },
+      { day: 'Tuesday', time: '6:00 PM - 7:30 PM', mode: 'physical', service: 'Ẹ̀kọ́ Bíbélì/' },
     ],
     english: [
       { day: 'Sunday', time: '9:30 AM - 11:30 AM', mode: 'hybrid', service: 'Morning Worship' },
