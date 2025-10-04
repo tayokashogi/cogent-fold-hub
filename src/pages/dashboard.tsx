@@ -77,14 +77,14 @@ export default function Dashboard({ language }: DashboardProps) {
   ];
 
   return (
-    <main className="min-h-screen bg-muted/30">
+    <main className="min-h-screen bg-gradient-to-br from-secondary/15 via-background to-primary/5">
       <div className="mx-auto max-w-6xl px-4 py-8">
         {/* 1) WELCOME HERO */}
         <section className="mb-8">
-          <div className="rounded-2xl border bg-gradient-to-r from-primary/10 via-background to-primary/5 p-6 md:p-8">
-            <p className="text-xs uppercase tracking-wider text-muted-foreground">{t.eyebrow}</p>
-            <h1 className="mt-1 text-3xl md:text-4xl font-bold">{t.welcomeTitle}</h1>
-            <p className="mt-2 text-muted-foreground max-w-2xl">{t.welcomeSub}</p>
+          <div className="rounded-2xl border border-primary/20 bg-gradient-to-r from-primary/15 via-secondary/20 to-accent/10 p-8 md:p-10 shadow-lg">
+            <p className="text-xs uppercase tracking-wider text-primary font-semibold">{t.eyebrow}</p>
+            <h1 className="mt-2 text-3xl md:text-5xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">{t.welcomeTitle}</h1>
+            <p className="mt-3 text-foreground/80 max-w-2xl text-lg">{t.welcomeSub}</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link to="/programmes">
                 <Button className="gap-2">
@@ -110,19 +110,19 @@ export default function Dashboard({ language }: DashboardProps) {
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {thisWeek.map((item, i) => (
-              <Card key={i} className="border-primary/20">
+              <Card key={i} className="border-primary/20 bg-gradient-to-br from-card via-secondary/5 to-primary/5 hover:border-primary/40 hover:-translate-y-1">
                 <CardHeader>
-                  <CardTitle className="text-base leading-tight">{item.title}</CardTitle>
+                  <CardTitle className="text-base leading-tight text-primary">{item.title}</CardTitle>
                 </CardHeader>
-                <CardContent className="text-sm text-muted-foreground space-y-1">
+                <CardContent className="text-sm text-foreground/70 space-y-2">
                   <div className="flex items-center gap-2">
-                    <CalendarDays className="h-4 w-4" /> {item.day}
+                    <CalendarDays className="h-4 w-4 text-primary" /> {item.day}
                   </div>
                   <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4" /> {item.time}
+                    <Clock className="h-4 w-4 text-secondary-dark" /> {item.time}
                   </div>
                   <div className="flex items-center gap-2">
-                    <Megaphone className="h-4 w-4" /> {item.mode}
+                    <Megaphone className="h-4 w-4 text-accent" /> {item.mode}
                   </div>
                 </CardContent>
               </Card>
@@ -140,13 +140,14 @@ export default function Dashboard({ language }: DashboardProps) {
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             {announcements.map((a, i) => (
-              <Card key={i}>
+              <Card key={i} className="border-secondary/30 bg-gradient-to-br from-secondary/10 to-card hover:border-secondary/50">
                 <CardHeader>
                   <CardTitle className="text-base flex items-center gap-2">
-                    <Megaphone className="h-5 w-5 text-primary" /> {a.title}
+                    <Megaphone className="h-5 w-5 text-accent" /> 
+                    <span className="text-primary">{a.title}</span>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="text-sm text-muted-foreground">{a.body}</CardContent>
+                <CardContent className="text-sm text-foreground/70">{a.body}</CardContent>
               </Card>
             ))}
           </div>
@@ -158,15 +159,19 @@ export default function Dashboard({ language }: DashboardProps) {
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {quickActions.map((qa, i) => (
               <Link key={i} to={qa.to} className="group">
-                <Card className="transition-all hover:translate-y-[-2px]">
-                  <CardContent className="p-5">
-                    <div className={`rounded-xl inline-flex p-3 mb-3 bg-gradient-to-br ${qa.tone}`}>
-                      {qa.icon}
+                <Card className="transition-all hover:translate-y-[-4px] hover:shadow-lg border-primary/10 hover:border-primary/30 bg-gradient-to-br from-card to-primary/5">
+                  <CardContent className="p-6">
+                    <div className={`rounded-xl inline-flex p-4 mb-4 shadow-md ${
+                      i % 3 === 0 ? 'bg-gradient-to-br from-primary/20 to-primary/10' :
+                      i % 3 === 1 ? 'bg-gradient-to-br from-secondary/30 to-secondary/10' :
+                      'bg-gradient-to-br from-accent/30 to-accent/10'
+                    }`}>
+                      <span className={i % 3 === 0 ? 'text-primary' : i % 3 === 1 ? 'text-secondary-dark' : 'text-accent'}>{qa.icon}</span>
                     </div>
-                    <div className="text-base font-semibold text-foreground group-hover:text-primary transition-colors">
+                    <div className="text-base font-bold text-primary group-hover:text-primary-dark transition-colors">
                       {qa.title}
                     </div>
-                    <div className="text-sm text-muted-foreground">{qa.desc}</div>
+                    <div className="text-sm text-foreground/70 mt-1">{qa.desc}</div>
                   </CardContent>
                 </Card>
               </Link>
@@ -176,17 +181,18 @@ export default function Dashboard({ language }: DashboardProps) {
 
         {/* 5) OPTIONAL: TASKS / CHECKLIST */}
         <section className="mb-20">
-          <Card>
+          <Card className="border-accent/30 bg-gradient-to-br from-accent/10 via-card to-secondary/5">
             <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2">
-                <ListChecks className="h-5 w-5 text-primary" /> {t.newHere}
+              <CardTitle className="text-lg flex items-center gap-2">
+                <ListChecks className="h-6 w-6 text-accent" /> 
+                <span className="text-primary">{t.newHere}</span>
               </CardTitle>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              <ul className="list-disc pl-5 space-y-2">
-                <li>{t.checklist1}</li>
-                <li>{t.checklist2}</li>
-                <li>{t.checklist3}</li>
+            <CardContent className="text-sm text-foreground/75">
+              <ul className="list-disc pl-5 space-y-3">
+                <li className="text-foreground/80">{t.checklist1}</li>
+                <li className="text-foreground/80">{t.checklist2}</li>
+                <li className="text-foreground/80">{t.checklist3}</li>
               </ul>
             </CardContent>
           </Card>
