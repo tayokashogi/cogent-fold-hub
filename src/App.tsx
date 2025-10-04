@@ -1,7 +1,7 @@
 // src/App.tsx
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Header from "@/components/Header";
+import Header from "@/components/header";
 import Home from "@/pages/home";
 import Dashboard from "@/pages/dashboard";          // ⬅️ add this
 import ProgrammesPage from "@/pages/programmes";
