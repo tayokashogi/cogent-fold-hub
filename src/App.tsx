@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "@/components/header";
+import ChatbotWidget from "@/components/chatbot-widget";
 import Home from "@/pages/home";
 import Dashboard from "@/pages/dashboard";          // ⬅️ add this
 import ProgrammesPage from "@/pages/programmes";
@@ -33,6 +34,7 @@ export default function App() {
         <Route path="/contact" element={<Contact language={language} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <ChatbotWidget />
     </BrowserRouter>
   );
 }

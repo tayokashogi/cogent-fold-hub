@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import cacLogo from '@/assets/cac-logo.svg';
+import SocialMediaBar from '@/components/social-media-bar';
 
 interface HeaderProps {
   language: 'en' | 'yo';
@@ -89,8 +90,12 @@ const Header = ({ language, onLanguageChange }: HeaderProps) => {
             ))}
           </nav>
 
-          {/* Language Selector & Mobile Menu */}
+          {/* Social Media, Language Selector & Mobile Menu */}
           <div className="flex items-center space-x-2">
+            <div className="hidden sm:block">
+              <SocialMediaBar />
+            </div>
+            
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="sm" className="gap-2 border-primary/30 hover:bg-secondary/20 hover:border-primary transition-all font-semibold">
