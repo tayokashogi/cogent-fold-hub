@@ -28,6 +28,8 @@ const Header = ({ language, onLanguageChange }: HeaderProps) => {
       stewardship: 'Stewardship',
       about: 'About Us',
       contact: 'Contact',
+      ministries: 'Ministries',
+      connect: 'Connect',
       language: 'Language',
       english: 'English',
       yoruba: 'Yoruba',
@@ -39,6 +41,8 @@ const Header = ({ language, onLanguageChange }: HeaderProps) => {
       stewardship: 'Ìṣàkóso',
       about: 'Nípa Wa',
       contact: 'Ìbánisọ̀rọ̀',
+      ministries: 'Àwọn Iṣẹ́',
+      connect: 'Ìbánisọ̀rọ̀',
       language: 'Èdè',
       english: 'Gẹ̀ẹ́sì',
       yoruba: 'Yorùbá',
@@ -48,10 +52,16 @@ const Header = ({ language, onLanguageChange }: HeaderProps) => {
   const t = translations[language];
 
   const navItems = [
-    { path: '/dashboard', label: t.dashboard },
+    { path: '/dashboard', label: t.home },
     { path: '/calendar', label: 'Calendar' },
+  ];
+
+  const ministriesItems = [
     { path: '/services', label: t.services },
     { path: '/stewardship', label: t.stewardship },
+  ];
+
+  const connectItems = [
     { path: '/about', label: t.about },
     { path: '/contact', label: t.contact },
   ];
@@ -89,6 +99,56 @@ const Header = ({ language, onLanguageChange }: HeaderProps) => {
                 </Button>
               </Link>
             ))}
+
+            {/* Ministries Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant={ministriesItems.some(i => isActive(i.path)) ? 'default' : 'ghost'}
+                  className={`transition-all font-semibold ${
+                    ministriesItems.some(i => isActive(i.path))
+                      ? 'bg-primary text-primary-foreground shadow-md hover:shadow-purple-glow' 
+                      : 'hover:bg-secondary/20 hover:text-primary'
+                  }`}
+                >
+                  {t.ministries}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="bg-popover z-50 border-secondary/30">
+                {ministriesItems.map((item) => (
+                  <DropdownMenuItem key={item.path} asChild>
+                    <Link to={item.path} className="cursor-pointer font-medium hover:bg-secondary/20">
+                      {item.label}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Connect Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant={connectItems.some(i => isActive(i.path)) ? 'default' : 'ghost'}
+                  className={`transition-all font-semibold ${
+                    connectItems.some(i => isActive(i.path))
+                      ? 'bg-primary text-primary-foreground shadow-md hover:shadow-purple-glow' 
+                      : 'hover:bg-secondary/20 hover:text-primary'
+                  }`}
+                >
+                  {t.connect}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="bg-popover z-50 border-secondary/30">
+                {connectItems.map((item) => (
+                  <DropdownMenuItem key={item.path} asChild>
+                    <Link to={item.path} className="cursor-pointer font-medium hover:bg-secondary/20">
+                      {item.label}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </nav>
 
           {/* Social Media, Language Selector & Mobile Menu */}
@@ -144,6 +204,58 @@ const Header = ({ language, onLanguageChange }: HeaderProps) => {
                   </Button>
                 </Link>
               ))}
+
+              {/* Ministries Section */}
+              <div className="pl-2 pt-2">
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-wide mb-1">
+                  {t.ministries}
+                </p>
+                {ministriesItems.map((item) => (
+                  <Link key={item.path} to={item.path} onClick={() => setMobileMenuOpen(false)}>
+                    <Button
+                      variant={isActive(item.path) ? 'default' : 'ghost'}
+                      className={`w-full justify-start font-semibold transition-all ${
+                        isActive(item.path) 
+                          ? 'bg-primary text-primary-foreground shadow-md' 
+                          : 'hover:bg-secondary/20 hover:text-primary'
+                      }`}
+                    >
+                      {item.label}
+                    </Button>
+                  </Link>
+                ))}
+              </div>
+
+              {/* Connect Section */}
+              <div className="pl-2 pt-2">
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-wide mb-1">
+                  {t.connect}
+                </p>
+                {connectItems.map((item) => (
+                  <Link key={item.path} to={item.path} onClick={() => setMobileMenuOpen(false)}>
+                    <Button
+                      variant={isActive(item.path) ? 'default' : 'ghost'}
+                      className={`w-full justify-start font-semibold transition-all ${
+                        isActive(item.path) 
+                          ? 'bg-primary text-primary-foreground shadow-md' 
+                          : 'hover:bg-secondary/20 hover:text-primary'
+                      }`}
+                    >
+                      {item.label}
+                    </Button>
+                  </Link>
+                ))}
+              </div>
+
+              {/* Social Media Icons in Mobile Menu */}
+              <div className="pt-4 border-t border-secondary/30 mt-2">
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-wide mb-2 px-2">
+                  Follow Us
+                </p>
+                <div className="px-2">
+                  <SocialMediaBar />
+                </div>
+              </div>
             </div>
           </nav>
         )}
