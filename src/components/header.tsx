@@ -49,6 +49,7 @@ const Header = ({ language, onLanguageChange }: HeaderProps) => {
 
   const navItems = [
     { path: '/dashboard', label: t.dashboard },
+    { path: '/calendar', label: 'Calendar' },
     { path: '/services', label: t.services },
     { path: '/stewardship', label: t.stewardship },
     { path: '/about', label: t.about },

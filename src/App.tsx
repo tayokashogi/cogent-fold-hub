@@ -5,8 +5,9 @@ import Header from "@/components/header";
 import Footer from "@/components/footer";
 import ChatbotWidget from "@/components/chatbot-widget";
 import Home from "@/pages/home";
-import Dashboard from "@/pages/dashboard";          // ⬅️ add this
+import Dashboard from "@/pages/dashboard";
 import ProgrammesPage from "@/pages/programmes";
+import CalendarPage from "@/pages/calendar";
 import About from "@/pages/about";
 import Services from "@/pages/services";
 import Stewardship from "@/pages/stewardship";
@@ -29,8 +30,9 @@ export default function App() {
             */}
 
             <Route path="/home" element={<Home language={language} onLanguageSelect={setLanguage} />} />
-            <Route path="/dashboard" element={<Dashboard language={language} />} />  {/* ⬅️ new */}
+            <Route path="/dashboard" element={<Dashboard language={language} />} />
             <Route path="/programmes" element={<ProgrammesPage />} />
+            <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/services" element={<Services language={language} />} />
             <Route path="/stewardship" element={<Stewardship language={language} />} />
             <Route path="/about" element={<About language={language} />} />
