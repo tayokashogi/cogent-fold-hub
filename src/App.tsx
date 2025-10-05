@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "@/components/header";
+import Footer from "@/components/footer";
 import ChatbotWidget from "@/components/chatbot-widget";
 import Home from "@/pages/home";
 import Dashboard from "@/pages/dashboard";          // ⬅️ add this
@@ -17,24 +18,29 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Header language={language} onLanguageChange={setLanguage} />
-      <Routes>
-        {/* choose your landing page */}
-        <Route path="/" element={<Home language={language} onLanguageSelect={setLanguage} />} />
-        {/* or, if you prefer dashboard as landing:
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        */}
+      <div className="flex flex-col min-h-screen">
+        <Header language={language} onLanguageChange={setLanguage} />
+        <main className="flex-1">
+          <Routes>
+            {/* choose your landing page */}
+            <Route path="/" element={<Home language={language} onLanguageSelect={setLanguage} />} />
+            {/* or, if you prefer dashboard as landing:
+                <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            */}
 
-        <Route path="/home" element={<Home language={language} onLanguageSelect={setLanguage} />} />
-        <Route path="/dashboard" element={<Dashboard language={language} />} />  {/* ⬅️ new */}
-        <Route path="/programmes" element={<ProgrammesPage />} />
-        <Route path="/services" element={<Services language={language} />} />
-        <Route path="/stewardship" element={<Stewardship language={language} />} />
-        <Route path="/about" element={<About language={language} />} />
-        <Route path="/contact" element={<Contact language={language} />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <ChatbotWidget />
+            <Route path="/home" element={<Home language={language} onLanguageSelect={setLanguage} />} />
+            <Route path="/dashboard" element={<Dashboard language={language} />} />  {/* ⬅️ new */}
+            <Route path="/programmes" element={<ProgrammesPage />} />
+            <Route path="/services" element={<Services language={language} />} />
+            <Route path="/stewardship" element={<Stewardship language={language} />} />
+            <Route path="/about" element={<About language={language} />} />
+            <Route path="/contact" element={<Contact language={language} />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+        <Footer />
+        <ChatbotWidget />
+      </div>
     </BrowserRouter>
   );
 }
