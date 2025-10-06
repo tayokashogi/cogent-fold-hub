@@ -1,17 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { CalendarDays, Book, Cake } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { CalendarDays, Book, Cake, Bell, BellOff, CheckCircle2 } from "lucide-react";
 import PageHeader from "@/components/page-header";
+import { TextToSpeechButton } from "@/components/text-to-speech-button";
+import { useLocalStorage } from "@/hooks/use-local-storage";
+import { useNotifications } from "@/hooks/use-notifications";
+import { useToast } from "@/hooks/use-toast";
+
+// Event data structure
+interface ChurchEvent {
+  id: string;
+  title: string;
+  date: Date;
+  description: string;
+}
+
+// Sample events - in production would come from a database
+const sampleEvents: ChurchEvent[] = [
+  { id: "1", title: "Sunday Worship Service", date: new Date(2025, 9, 12, 9, 0), description: "Join us for worship" },
+  { id: "2", title: "Bible Study", date: new Date(2025, 9, 15, 18, 0), description: "Weekly Bible study session" },
+  { id: "3", title: "Youth Fellowship", date: new Date(2025, 9, 17, 18, 0), description: "Youth gathering and fellowship" },
+  { id: "4", title: "Prayer Meeting", date: new Date(2025, 9, 20, 6, 0), description: "Morning prayer session" },
+];
 
 /**
  * Calendar Page Component
- * Features daily devotionals and monthly birthday celebrations
+ * Features daily devotionals, monthly birthday celebrations, and event registration
  */
 const CalendarPage = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
+  const [rsvps, setRsvps] = useLocalStorage<string[]>('event-rsvps', []);
+  const { permission, requestPermission, sendNotification, isSupported } = useNotifications();
+  const { toast } = useToast();
 
   // Daily devotional content (automated based on date)
   const getDailyDevotional = (selectedDate: Date) => {
@@ -82,20 +106,69 @@ const CalendarPage = () => {
   const monthlyBirthdays = date ? getBirthdaysForMonth(date) : [];
   const selectedMonth = date ? date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : '';
 
+  // RSVP handlers
+  const handleRSVP = (eventId: string, eventTitle: string) => {
+    if (rsvps.includes(eventId)) {
+      setRsvps(rsvps.filter(id => id !== eventId));
+      toast({
+        title: "RSVP Cancelled",
+        description: `You've cancelled your RSVP for ${eventTitle}`,
+      });
+    } else {
+      setRsvps([...rsvps, eventId]);
+      toast({
+        title: "RSVP Confirmed",
+        description: `You've registered for ${eventTitle}`,
+      });
+      
+      // Send notification if enabled
+      if (permission === 'granted') {
+        sendNotification("Event RSVP Confirmed", {
+          body: `You're registered for ${eventTitle}`,
+        });
+      }
+    }
+  };
+
+  // Get devotional text for TTS
+  const getDevotionalText = () => {
+    if (!currentDevotional) return "";
+    return `${currentDevotional.title}. ${currentDevotional.verse}. ${currentDevotional.text}. Reflection: ${currentDevotional.reflection}`;
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-secondary/5 to-background">
       <PageHeader
         title="Church Calendar"
-        description="Daily devotionals and monthly birthday celebrations"
+        description="Daily devotionals, birthday celebrations, and upcoming events"
         icon={CalendarDays}
-      />
+      >
+        <div className="flex gap-2 flex-wrap">
+          {isSupported && permission !== 'granted' && (
+            <Button onClick={requestPermission} variant="outline" size="sm">
+              <Bell className="h-4 w-4 mr-2" />
+              Enable Notifications
+            </Button>
+          )}
+          {permission === 'granted' && (
+            <Badge variant="secondary" className="gap-1">
+              <BellOff className="h-3 w-3" />
+              Notifications Enabled
+            </Badge>
+          )}
+        </div>
+      </PageHeader>
 
       <div className="container mx-auto px-4 py-12">
         <Tabs defaultValue="devotional" className="w-full">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
+          <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-3 mb-8">
             <TabsTrigger value="devotional" className="gap-2">
               <Book className="h-4 w-4" />
-              Daily Devotional
+              Devotional
+            </TabsTrigger>
+            <TabsTrigger value="events" className="gap-2">
+              <CalendarDays className="h-4 w-4" />
+              Events
             </TabsTrigger>
             <TabsTrigger value="birthdays" className="gap-2">
               <Cake className="h-4 w-4" />
@@ -130,7 +203,7 @@ const CalendarPage = () => {
                 <Card className="card-featured border-primary/20">
                   <CardHeader>
                     <div className="flex items-start justify-between">
-                      <div>
+                      <div className="flex-1">
                         <CardTitle className="text-2xl mb-2 text-primary">
                           {currentDevotional.title}
                         </CardTitle>
@@ -142,6 +215,10 @@ const CalendarPage = () => {
                             day: 'numeric' 
                           })}
                         </Badge>
+                        <TextToSpeechButton 
+                          text={getDevotionalText()} 
+                          className="mt-2"
+                        />
                       </div>
                       <Book className="h-8 w-8 text-accent" />
                     </div>
@@ -160,6 +237,62 @@ const CalendarPage = () => {
                   </CardContent>
                 </Card>
               )}
+            </div>
+          </TabsContent>
+
+          {/* Events Tab */}
+          <TabsContent value="events" className="space-y-8">
+            <div className="max-w-4xl mx-auto">
+              <Card className="card-featured">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-2xl">
+                    <CalendarDays className="h-6 w-6 text-primary" />
+                    Upcoming Events
+                  </CardTitle>
+                  <CardDescription>
+                    Register for upcoming church events and activities
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {sampleEvents.map((event) => (
+                    <div
+                      key={event.id}
+                      className="flex items-start gap-4 p-4 rounded-lg bg-gradient-to-r from-primary/5 to-secondary/5 border border-primary/10"
+                    >
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+                        <CalendarDays className="h-6 w-6" />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-foreground">{event.title}</h4>
+                        <p className="text-sm text-muted-foreground">{event.description}</p>
+                        <p className="text-sm text-primary font-medium mt-1">
+                          {event.date.toLocaleDateString('en-US', { 
+                            weekday: 'long',
+                            month: 'long', 
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: '2-digit'
+                          })}
+                        </p>
+                      </div>
+                      <Button
+                        onClick={() => handleRSVP(event.id, event.title)}
+                        variant={rsvps.includes(event.id) ? "default" : "outline"}
+                        size="sm"
+                      >
+                        {rsvps.includes(event.id) ? (
+                          <>
+                            <CheckCircle2 className="h-4 w-4 mr-2" />
+                            Registered
+                          </>
+                        ) : (
+                          "RSVP"
+                        )}
+                      </Button>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
             </div>
           </TabsContent>
 
