@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -89,6 +89,18 @@ const Contact = ({ language }: ContactProps) => {
   };
 
   const t = translations[language];
+
+  // Build a Google Maps embed URL from the current language’s address
+  const mapSrc = useMemo(() => {
+    const q = encodeURIComponent(t.address);
+    // `output=embed` gives a lightweight, interactive map without needing an API key
+    return `https://www.google.com/maps?q=${q}&output=embed`;
+  }, [t.address]);
+
+  const mapsLink = useMemo(() => {
+    const q = encodeURIComponent(t.address);
+    return `https://www.google.com/maps/search/?api=1&query=${q}`;
+  }, [t.address]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -235,18 +247,31 @@ const Contact = ({ language }: ContactProps) => {
               </CardContent>
             </Card>
 
-            {/* Location Map */}
+            {/* Location Map (real embed) */}
             <Card className="animate-scale-in" style={{ animationDelay: '0.1s' }}>
-              <CardHeader>
+              <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle>{t.location}</CardTitle>
+                <a
+                  href={mapsLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sm underline underline-offset-4 text-primary hover:opacity-80"
+                >
+                  Open in Google Maps
+                </a>
               </CardHeader>
               <CardContent>
-                <div className="w-full h-64 bg-muted rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="h-12 w-12 text-primary mx-auto mb-2" />
-                    <p className="text-sm text-muted-foreground">Map integration placeholder</p>
-                    <p className="text-xs text-muted-foreground mt-1">Google Maps will be embedded here</p>
-                  </div>
+                <div className="relative w-full overflow-hidden rounded-lg border">
+                  {/* 16:9 responsive frame */}
+                  <div className="pt-[56.25%]" />
+                  <iframe
+                    title={`Map of ${t.address}`}
+                    src={mapSrc}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="absolute inset-0 h-full w-full"
+                  />
                 </div>
               </CardContent>
             </Card>
@@ -260,7 +285,7 @@ const Contact = ({ language }: ContactProps) => {
               <CardContent>
                 <div className="space-y-3">
                   {[t.option1, t.option2, t.option3, t.option4].map((option, index) => (
-                    <label 
+                    <label
                       key={index}
                       className="flex items-center gap-3 p-3 bg-muted rounded-lg hover:bg-muted/70 cursor-pointer transition-colors"
                     >

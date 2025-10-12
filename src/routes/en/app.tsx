@@ -1,8 +1,10 @@
-﻿import { Outlet } from "react-router-dom";
+﻿// src/routes/en/app.tsx
+import { Outlet } from "react-router-dom";
 import AppShell from "@/layouts/appshell";
+
 export default function EnglishApp() {
   return (
-    <AppShell>
+    <AppShell base="/en">
       <Outlet />
     </AppShell>
   );
