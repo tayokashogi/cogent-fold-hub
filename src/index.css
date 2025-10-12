@@ -8,56 +8,59 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 56 100% 98%;
-    --foreground: 254 62% 26%;
+    --background: 56 100% 97%;
+    --foreground: 254 62% 22%;
 
     --card: 0 0% 100%;
-    --card-foreground: 254 62% 26%;
+    --card-foreground: 254 62% 22%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 254 62% 26%;
+    --popover-foreground: 254 62% 22%;
 
-    /* Rich Purple Primary (from logo) */
-    --primary: 254 62% 26%;
+    /* Rich Purple Primary (from logo) - more vibrant */
+    --primary: 254 70% 35%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 254 62% 85%;
-    --primary-dark: 254 62% 20%;
+    --primary-light: 254 65% 75%;
+    --primary-dark: 254 75% 25%;
 
-    /* Vibrant Yellow Secondary (from logo) */
-    --secondary: 56 100% 81%;
-    --secondary-foreground: 254 62% 26%;
-    --secondary-light: 56 100% 90%;
+    /* Vibrant Yellow Secondary (from logo) - more saturated */
+    --secondary: 56 100% 65%;
+    --secondary-foreground: 254 62% 22%;
+    --secondary-light: 56 100% 85%;
+    --secondary-dark: 56 100% 50%;
 
-    /* Gold Accent */
-    --accent: 45 100% 60%;
-    --accent-foreground: 254 62% 26%;
-    --accent-light: 45 100% 85%;
+    /* Gold Accent - richer tone */
+    --accent: 42 95% 55%;
+    --accent-foreground: 0 0% 100%;
+    --accent-light: 42 95% 75%;
 
-    --muted: 56 40% 96%;
-    --muted-foreground: 254 20% 45%;
+    --muted: 56 30% 94%;
+    --muted-foreground: 254 15% 50%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 254 30% 90%;
-    --input: 254 20% 95%;
-    --ring: 254 62% 26%;
+    --border: 254 20% 88%;
+    --input: 254 15% 95%;
+    --ring: 254 70% 35%;
 
     --radius: 0.75rem;
 
-    /* Vibrant Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(254, 62%, 26%), hsl(254, 62%, 40%));
-    --gradient-secondary: linear-gradient(135deg, hsl(56, 100%, 81%), hsl(56, 100%, 70%));
-    --gradient-accent: linear-gradient(135deg, hsl(45, 100%, 60%), hsl(45, 100%, 50%));
-    --gradient-hero: linear-gradient(135deg, hsl(254, 62%, 26%) 0%, hsl(254, 62%, 45%) 50%, hsl(56, 100%, 70%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(56, 100%, 98%) 0%, hsl(254, 20%, 98%) 100%);
+    /* Vibrant Gradients with rich colors */
+    --gradient-primary: linear-gradient(135deg, hsl(254, 70%, 35%) 0%, hsl(254, 65%, 50%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(56, 100%, 65%) 0%, hsl(42, 95%, 55%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(42, 95%, 55%) 0%, hsl(42, 100%, 45%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(254, 70%, 35%) 0%, hsl(254, 65%, 50%) 40%, hsl(56, 100%, 65%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0, 0%, 100%) 0%, hsl(254, 50%, 98%) 100%);
+    --gradient-card-hover: linear-gradient(145deg, hsl(56, 100%, 98%) 0%, hsl(254, 40%, 97%) 100%);
     
-    /* Colorful Shadows */
-    --shadow-sm: 0 2px 8px hsl(254 62% 26% / 0.08);
-    --shadow-md: 0 4px 16px hsl(254 62% 26% / 0.12);
-    --shadow-lg: 0 8px 32px hsl(254 62% 26% / 0.18);
-    --shadow-glow: 0 0 30px hsl(56 100% 70% / 0.4);
-    --shadow-purple-glow: 0 0 40px hsl(254 62% 40% / 0.3);
+    /* Colorful Shadows with more intensity */
+    --shadow-sm: 0 2px 8px hsl(254 70% 35% / 0.12);
+    --shadow-md: 0 4px 16px hsl(254 70% 35% / 0.18);
+    --shadow-lg: 0 10px 40px hsl(254 70% 35% / 0.25);
+    --shadow-glow: 0 0 35px hsl(56 100% 65% / 0.5);
+    --shadow-purple-glow: 0 0 45px hsl(254 65% 50% / 0.4);
+    --shadow-accent-glow: 0 0 30px hsl(42 95% 55% / 0.35);
 
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -108,7 +111,7 @@ All colors MUST be HSL.
 
 @layer components {
   .btn-hero {
-    @apply bg-primary text-primary-foreground hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-purple-glow;
+    @apply bg-primary text-primary-foreground hover:scale-105 transition-all duration-300 shadow-md hover:shadow-purple-glow;
   }
 
   .btn-secondary {
@@ -116,26 +119,27 @@ All colors MUST be HSL.
   }
 
   .btn-accent {
-    @apply bg-accent text-accent-foreground hover:scale-105 transition-all duration-300 shadow-md;
+    @apply bg-accent text-accent-foreground hover:scale-105 transition-all duration-300 shadow-md hover:shadow-accent-glow;
   }
 
   .card-interactive {
-    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-gradient-to-br from-card to-secondary/10 border border-secondary/20;
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-2 bg-gradient-to-br from-card to-primary/5 border border-primary/10 hover:border-primary/30;
   }
 
-  .gradient-primary {
-    background: var(--gradient-primary);
+  .card-featured {
+    @apply card-interactive bg-gradient-to-br from-secondary/10 via-card to-accent/5;
   }
 
-  .gradient-secondary {
-    background: var(--gradient-secondary);
-  }
+  .gradient-primary { background: var(--gradient-primary); }
+  .gradient-secondary { background: var(--gradient-secondary); }
+  .gradient-hero { background: var(--gradient-hero); }
+  .gradient-card { background: var(--gradient-card); }
+  .gradient-card-hover { background: var(--gradient-card-hover); }
+}
 
-  .gradient-hero {
-    background: var(--gradient-hero);
-  }
-
-  .gradient-card {
-    background: var(--gradient-card);
-  }
+/* Ensure custom shadow utilities exist even before config reload */
+@layer utilities {
+  .shadow-glow { box-shadow: var(--shadow-glow); }
+  .shadow-purple-glow { box-shadow: var(--shadow-purple-glow); }
+  .shadow-accent-glow { box-shadow: var(--shadow-accent-glow); }
 }
