@@ -130,23 +130,16 @@ All colors MUST be HSL.
     @apply card-interactive bg-gradient-to-br from-secondary/10 via-card to-accent/5;
   }
 
-  .gradient-primary {
-    background: var(--gradient-primary);
-  }
+  .gradient-primary { background: var(--gradient-primary); }
+  .gradient-secondary { background: var(--gradient-secondary); }
+  .gradient-hero { background: var(--gradient-hero); }
+  .gradient-card { background: var(--gradient-card); }
+  .gradient-card-hover { background: var(--gradient-card-hover); }
+}
 
-  .gradient-secondary {
-    background: var(--gradient-secondary);
-  }
-
-  .gradient-hero {
-    background: var(--gradient-hero);
-  }
-
-  .gradient-card {
-    background: var(--gradient-card);
-  }
-
-  .gradient-card-hover {
-    background: var(--gradient-card-hover);
-  }
+/* Ensure custom shadow utilities exist even before config reload */
+@layer utilities {
+  .shadow-glow { box-shadow: var(--shadow-glow); }
+  .shadow-purple-glow { box-shadow: var(--shadow-purple-glow); }
+  .shadow-accent-glow { box-shadow: var(--shadow-accent-glow); }
 }

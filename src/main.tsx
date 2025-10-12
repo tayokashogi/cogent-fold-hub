@@ -1,4 +1,6 @@
 // src/main.tsx
+import "./index.css"; // ✅ load global Tailwind/shadcn styles first
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import {
@@ -9,13 +11,13 @@ import {
 } from "react-router-dom";
 
 // Landing
-import ServicePicker from "./pages/servicePicker";
+import ServicePicker from "./pages/servicepicker"; // ✅ lowercase filename
 
-// Section wrappers (export default + render <Outlet/>)
-import EnglishApp from "./routes/en/App";
-import YorubaApp from "./routes/yo/App";
+// Section wrappers (each renders <Outlet/> inside AppShell)
+import EnglishApp from "./routes/en/app";
+import YorubaApp from "./routes/yo/app"; // ✅ fix casing
 
-// Your existing pages (match filename case exactly)
+// Existing pages
 import Home from "./pages/home";
 import About from "./pages/about";
 import Contact from "./pages/contact";
@@ -28,14 +30,10 @@ import NotFound from "./pages/notfound";
 // ---------- helpers ----------
 type Lang = "en" | "yo";
 
-/**
- * Wrap a page component and inject the required `language` prop.
- * Kept intentionally loose (`props: any`) to avoid TSX parsing issues.
- */
-function withLang<P extends { language: Lang; onLanguageSelect?: (l: Lang) => void }>(
-  Comp: React.ComponentType<P>,
-  lang: Lang
-) {
+/** Inject the required `language` prop for each section */
+function withLang<
+  P extends { language: Lang; onLanguageSelect?: (l: Lang) => void }
+>(Comp: React.ComponentType<P>, lang: Lang) {
   return function WrappedPage(props: any) {
     const nav = useNavigate();
     return (
@@ -48,7 +46,7 @@ function withLang<P extends { language: Lang; onLanguageSelect?: (l: Lang) => vo
   };
 }
 
-// Create EN/YO variants for pages that require `language`
+// EN/YO variants for pages that take `language`
 const EnHome = withLang(Home as any, "en");
 const YoHome = withLang(Home as any, "yo");
 
@@ -79,7 +77,7 @@ const enChildren = [
   { path: "programmes", element: <EnProgrammes /> },
   { path: "stewardship", element: <EnStewardship /> },
   { path: "calendar", element: <EnCalendar /> },
-  { path: "*", element: <NotFound /> }, // if NotFound needs language, wrap it too
+  { path: "*", element: <NotFound /> },
 ];
 
 const yoChildren = [
@@ -97,11 +95,11 @@ const router = createBrowserRouter([
   // Landing picker
   { path: "/", element: <ServicePicker /> },
 
-  // Sections
+  // Sections (each wrapped with AppShell via EnglishApp/YorubaApp)
   { path: "/en", element: <EnglishApp />, children: enChildren },
   { path: "/yo", element: <YorubaApp />, children: yoChildren },
 
-  // Back-compat redirects (old direct links → EN)
+  // Back-compat redirects → EN namespace
   { path: "/about", element: <Navigate to="/en/about" replace /> },
   { path: "/contact", element: <Navigate to="/en/contact" replace /> },
   { path: "/services", element: <Navigate to="/en/services" replace /> },
