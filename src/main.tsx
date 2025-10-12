@@ -11,7 +11,7 @@ import {
 // Landing
 import ServicePicker from "./pages/servicePicker";
 
-// Section wrappers (must export default + render <Outlet/>)
+// Section wrappers (export default + render <Outlet/>)
 import EnglishApp from "./routes/en/App";
 import YorubaApp from "./routes/yo/App";
 
@@ -25,16 +25,18 @@ import Stewardship from "./pages/stewardship";
 import Calendar from "./pages/calendar";
 import NotFound from "./pages/notfound";
 
-// ---- Small helper so we can pass the required `language` prop cleanly ----
+// ---------- helpers ----------
 type Lang = "en" | "yo";
 
-// If your pages need only `language` and (optionally) `onLanguageSelect`,
-// this HOC will satisfy their props for each section.
+/**
+ * Wrap a page component and inject the required `language` prop.
+ * Kept intentionally loose (`props: any`) to avoid TSX parsing issues.
+ */
 function withLang<P extends { language: Lang; onLanguageSelect?: (l: Lang) => void }>(
   Comp: React.ComponentType<P>,
   lang: Lang
 ) {
-  return function WrappedPage(props: Omit<P, "language" | "onLanguageSelect"> as any) {
+  return function WrappedPage(props: any) {
     const nav = useNavigate();
     return (
       <Comp
@@ -68,9 +70,7 @@ const YoStewardship = withLang(Stewardship as any, "yo");
 const EnCalendar = withLang(Calendar as any, "en");
 const YoCalendar = withLang(Calendar as any, "yo");
 
-// If NotFound doesn’t need language, use as-is.
-// If it does, you can do: const EnNotFound = withLang(NotFound as any, "en"); etc.
-
+// Section route children
 const enChildren = [
   { index: true, element: <EnHome /> },
   { path: "about", element: <EnAbout /> },
@@ -79,7 +79,7 @@ const enChildren = [
   { path: "programmes", element: <EnProgrammes /> },
   { path: "stewardship", element: <EnStewardship /> },
   { path: "calendar", element: <EnCalendar /> },
-  { path: "*", element: <NotFound /> }, // adjust if NotFound needs language
+  { path: "*", element: <NotFound /> }, // if NotFound needs language, wrap it too
 ];
 
 const yoChildren = [
@@ -90,7 +90,7 @@ const yoChildren = [
   { path: "programmes", element: <YoProgrammes /> },
   { path: "stewardship", element: <YoStewardship /> },
   { path: "calendar", element: <YoCalendar /> },
-  { path: "*", element: <NotFound /> }, // adjust if NotFound needs language
+  { path: "*", element: <NotFound /> },
 ];
 
 const router = createBrowserRouter([
@@ -101,7 +101,7 @@ const router = createBrowserRouter([
   { path: "/en", element: <EnglishApp />, children: enChildren },
   { path: "/yo", element: <YorubaApp />, children: yoChildren },
 
-  // Back-compat redirects for old direct links (point them to EN)
+  // Back-compat redirects (old direct links → EN)
   { path: "/about", element: <Navigate to="/en/about" replace /> },
   { path: "/contact", element: <Navigate to="/en/contact" replace /> },
   { path: "/services", element: <Navigate to="/en/services" replace /> },
